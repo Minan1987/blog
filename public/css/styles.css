@@ -1,0 +1,57 @@
+@font-face {
+  font-family: "vazir";
+  src: url("../fonts/Vazir.eot");
+  src: url("../fonts/Vazir.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Vazir.woff2") format("woff2"),
+    url("../fonts/Vazir.woff") format("woff"),
+    url("../fonts/Vazir.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "tanha";
+  src: url("../fonts/Tanha.eot");
+  src: url("../fonts/Tanha.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/Tanha.woff2") format("woff2"),
+    url("../fonts/Tanha.woff") format("woff"),
+    url("../fonts/Tanha.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html * {
+  font-family: tanha, vazir, tahoma !important;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+
+}
+
+.navbar-brand {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.post-card {
+  transition: box-shadow 0.3s;
+}
+
+.post-card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.post-img {
+  object-fit: cover;
+  height: 200px;
+}
+
+.post-meta {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
