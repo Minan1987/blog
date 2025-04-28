@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { blogEdited, selectBlogById } from '../reducers/blogSlice';
+import { updateBlogApi, selectBlogById } from '../reducers/blogSlice';
+import { toast } from 'react-toastify';
 
 const EditBlog = () => {
     const { blogId } = useParams();
@@ -11,10 +12,23 @@ const EditBlog = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleSubmitForm = () => {
+    const handleSubmitForm = async () => {
         if (title && content) {
-            dispatch(blogEdited({ id: blogId, title, content }));
-            navigate(`/blogs/${blogId}`);
+            try {
+                await dispatch(updateBlogApi({
+                    id: blogId,
+                    date: blog.date,
+                    title,
+                    content,
+                    user: blog.user,
+                    reactions: { ...blog.reactions }
+                })).unwrap();
+
+                toast.success('مقاله با موفقیت ویرایش شد');
+                navigate(`/blogs/${blogId}`);
+            } catch (err) {
+                toast.error('خطایی در ویرایش مقاله پیش آمد', err);
+            }
         }
     }
 

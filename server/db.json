@@ -2,43 +2,31 @@
   "blogs": [
     {
       "id": "s0oh3-khgpfrTca9qOisv",
-      "title": "پست اول",
       "date": "2024-12-01T08:00:00.000Z",
+      "title": "پست اول",
       "content": "این یک خلاصه کوتاه از مقاله است که کاربر را به ادامه خواندن ترغیب می‌کند",
       "user": "rvujFd95m5YtjpE-pJE4k",
       "reactions": {
-        "like": "0",
-        "favorite": "0",
-        "view": "0"
+        "like": 0,
+        "favorite": 0,
+        "view": 0
       }
     },
     {
       "id": "pHqQyNRZvoOdGB11AwKRA",
-      "title": "پست دوم",
       "date": "2024-12-01T08:00:00.000Z",
+      "title": "ویرایش پست دوم",
       "content": "این یک خلاصه کوتاه از مقاله است که کاربر را به ادامه خواندن ترغیب می‌کند",
       "user": "rvujFd95m5YtjpE-pJE4k",
       "reactions": {
-        "like": "0",
-        "favorite": "0",
-        "view": "0"
+        "like": 0,
+        "favorite": 0,
+        "view": 0
       }
     },
     {
       "id": "bSyCzPuvY1n2BWYE6xsDZ",
       "title": "پست سوم",
-      "date": "2024-12-01T08:00:00.000Z",
-      "content": "این یک خلاصه کوتاه از مقاله است که کاربر را به ادامه خواندن ترغیب می‌کند",
-      "user": "rvujFd95m5YtjpE-pJE4k",
-      "reactions": {
-        "like": "0",
-        "favorite": "0",
-        "view": "0"
-      }
-    },
-    {
-      "id": "ssnJBFhgc6KLldFZAJgAS",
-      "title": "پست چهارم",
       "date": "2024-12-01T08:00:00.000Z",
       "content": "این یک خلاصه کوتاه از مقاله است که کاربر را به ادامه خواندن ترغیب می‌کند",
       "user": "rvujFd95m5YtjpE-pJE4k",

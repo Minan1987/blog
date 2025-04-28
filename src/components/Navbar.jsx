@@ -16,7 +16,7 @@ const Navbar = () => {
               <Link to="/" className="nav-link active" aria-current="page">صفحه اصلی</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">اجتماعی</a>
+              <Link to={"/authors"} className="nav-link" href="#">نویسندگان</Link>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

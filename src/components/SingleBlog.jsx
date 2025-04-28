@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { blogDeleted, selectBlogById } from '../reducers/blogSlice';
+import { deleteBlogFromApi, selectBlogById } from '../reducers/blogSlice';
 import ShowDate from './ShowDate';
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import ShowAuthor from './ShowAuthor';
@@ -24,12 +24,10 @@ const SingleBlog = () => {
 
   const handleDelete = () => {
     if (blog) {
-      dispatch(blogDeleted({ id: blog.id }))
+      dispatch(deleteBlogFromApi(blog.id))
       navigate("/");
     }
   }
-
-
 
   return (
     <div key={blog.id} className="col-xs-12 m-3">

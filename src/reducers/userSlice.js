@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getAllUsers } from "../services";
 
-
 export const fetchUsers = createAsyncThunk(
     "/users/fetchUsers",
     async () => {
@@ -10,15 +9,29 @@ export const fetchUsers = createAsyncThunk(
     }
 )
 
+const initialState = {
+    users: [],
+    status: 'idle',
+    error: null
+}
 const userSlice = createSlice(
     {
         name: 'users',
-        initialState: [],
+        initialState: initialState,
         reducers: {},
         extraReducers(builder) {
-            builder.addCase(fetchUsers.fulfilled, (state, action)=>{
-                return action.payload
-            })
+            builder
+                .addCase(fetchUsers.pending, (state) => {
+                    state.status = "loading"
+                })
+                .addCase(fetchUsers.fulfilled, (state, action) => {
+                    state.status = "completed"
+                    state.users = action.payload
+                })
+                .addCase(fetchUsers.rejected, (state, action) => {
+                    state.status = "failed"
+                    state.error = action.error.message
+                })
 
         }
     }

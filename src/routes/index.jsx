@@ -5,6 +5,7 @@ import NotFound from "../components/NotFound";
 import SingleBlog from "../components/SingleBlog";
 import CreateBlog from "../components/CreateBlog";
 import EditBlog from "../components/EditBlog";
+import UsersList from "../components/UsersList";
 
 
 export const router = createBrowserRouter([
@@ -16,7 +17,8 @@ export const router = createBrowserRouter([
             { path: "/", element: <App /> },
             { path: "/blogs/:blogId", element: <SingleBlog /> },
             { path: "/blogs/create-blog", element: <CreateBlog /> },
-            {path:"/edit-blog/:blogId", element:<EditBlog />}
+            { path: "/edit-blog/:blogId", element: <EditBlog /> },
+            { path: "/authors", element: <UsersList /> },
         ]
     }
 ])

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addNewBlog, blogAdded } from '../reducers/blogSlice';
+import { addNewBlog } from '../reducers/blogSlice';
 import { useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 

@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
-import { createBlog, getAllBlogs } from "../services";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createBlog, deleteBlog, getAllBlogs, updateBlog } from "../services";
 
 const initialState = {
     blogs: [],
@@ -12,52 +12,60 @@ export const fetchBlogs = createAsyncThunk("/blogs/fetchBlogs", async () => {
     return response.data
 })
 export const addNewBlog = createAsyncThunk("/blogs/addNewBlog", async (initialBlog) => {
-    const response = await createBlog(initialBlog);
-    return response.data;
+    const response = await createBlog(initialBlog)
+    return response.data
+})
+export const deleteBlogFromApi = createAsyncThunk("/blogs/deleteBlogFromapi", async (initialBlogId) => {
+    await deleteBlog(initialBlogId)
+    return initialBlogId
+})
+export const updateBlogApi = createAsyncThunk("/blogs/updateBlogApi", async (initialBlog) => {
+    const response = await updateBlog(initialBlog, initialBlog.id)
+    return response.data
 })
 
 const blogSlice = createSlice({
     name: 'blogs',
     initialState: initialState,
     reducers: {
-        blogAdded: {
-            reducer(state, action) {
-                state.blogs.push(action.payload)
-            },
-            prepare(title, content, userId) {
-                return {
-                    payload: {
-                        id: nanoid(),
-                        date: new Date().toISOString(),
-                        title,
-                        content,
-                        user: userId,
-                        reactions: {
-                            like: 0,
-                            favorite: 0,
-                            view: 0
-                        }
-                    }
-                }
-            }
-        },
-        blogEdited: {
-            reducer(state, action) {
-                const { id, title, content } = action.payload;
-                const existingBlog = state.blogs.find((blog) => blog.id === id);
-                if (existingBlog) {
-                    existingBlog.title = title;
-                    existingBlog.content = content;
-                }
-            }
-        },
+        // blogAdded: {
+        //     reducer(state, action) {
+        //         state.blogs.push(action.payload)
+        //     },
+        //     prepare(title, content, userId) {
+        //         return {
+        //             payload: {
+        //                 id: nanoid(),
+        //                 date: new Date().toISOString(),
+        //                 title,
+        //                 content,
+        //                 user: userId,
+        //                 reactions: {
+        //                     like: 0,
+        //                     favorite: 0,
+        //                     view: 0
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
+        // blogEdited: {
+        //     reducer(state, action) {
+        //         const { id, title, content } = action.payload;
+        //         const existingBlog = state.blogs.find((blog) => blog.id === id);
+        //         if (existingBlog) {
+        //             existingBlog.title = title;
+        //             existingBlog.content = content;
+        //         }
+        //     }
+        // },
 
-        blogDeleted: {
-            reducer(state, action) {
-                const { id } = action.payload;
-                state.blogs = state.blogs.filter(blog => blog.id !== id)
-            }
-        },
+        // blogDeleted: {
+        //     reducer(state, action) {
+        //         const { id } = action.payload;
+        //         state.blogs = state.blogs.filter(blog => blog.id !== id)
+        //     }
+        // },
         reactionAdded: {
             reducer(state, action) {
                 const { blogId, reaction } = action.payload;
@@ -84,6 +92,13 @@ const blogSlice = createSlice({
             })
             .addCase(addNewBlog.fulfilled, (state, action) => {
                 state.blogs.push(action.payload)
+            })
+            .addCase(deleteBlogFromApi.fulfilled, (state, action) => {
+                state.blogs = state.blogs.filter((blog) => blog.id !== action.payload)
+            })
+            .addCase(updateBlogApi.fulfilled, (state, action) => {
+                const updatedBlogIndex = state.blogs.findIndex((blog) => blog.id === action.payload.id)
+                state.blogs[updatedBlogIndex] = action.payload
             })
     }
 })
