@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { blogAdded } from '../reducers/blogSlice';
+import { addNewBlog, blogAdded } from '../reducers/blogSlice';
 import { useSelector } from 'react-redux';
+import { nanoid } from '@reduxjs/toolkit';
 
 const CreateBlog = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [userId, setUserId] = useState("");
+    const [requestStatus, setRequestStatus] = useState('idle');
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -15,14 +17,35 @@ const CreateBlog = () => {
     const users = useSelector(state => state.users)
 
     const onSelectAuthor = e => setUserId(e.target.value)
-    const canSubmit = [title, content, userId].every(Boolean);
+    const canSubmit = [title, content, userId].every(Boolean) && requestStatus === 'idle';
 
-    const handleSubmitForm = () => {
+    const handleSubmitForm = async () => {
         if (canSubmit) {
-            dispatch(blogAdded(title, content, userId))
-            setTitle("")
-            setContent("")
-            navigate("/")
+            try {
+                setRequestStatus('pending')
+                await dispatch(addNewBlog({
+                    id: nanoid(),
+                    date: new Date().toISOString(),
+                    title,
+                    content,
+                    user: userId,
+                    reactions: {
+                        like: 0,
+                        favorite: 0,
+                        view: 0
+                    },
+
+                }))
+                setTitle("");
+                setContent("");
+                setUserId("");
+                navigate("/");
+            } catch (err) {
+                console.error("Failed to save the blog", err);
+
+            } finally {
+                setRequestStatus('idle')
+            }
         }
     }
 
@@ -44,7 +67,7 @@ const CreateBlog = () => {
 
                             <label htmlFor='authorName'>نویسنده:</label>
                             <select id='authorName'
-                            className='form-control mb-3'
+                                className='form-control mb-3'
                                 value={userId}
                                 onChange={onSelectAuthor}
                             >

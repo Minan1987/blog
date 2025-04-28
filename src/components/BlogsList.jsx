@@ -34,8 +34,8 @@ const BlogsList = () => {
                 <div className="card post-card">
                     <img src="https://www.horizonplant.com/wp-content/uploads/2017/05/placeholder-400x400.png" className="card-img-top post-img" alt={blog.title} />
                     <div className="card-body">
-                        <h5 className="card-title">{blog.title}</h5>
-                        <p className="card-text text-muted">{blog.content.substring(0, 100)}</p>
+                        <h5 className="title card-title">{blog.title}</h5>
+                        <p className="content card-text text-muted">{blog.content.substring(0, 100)}</p>
                         <div className="d-flex">
                             <div className="w-50 text-start">
                                 <h6 style={{ color: "#777", fontSize: "12px", marginLeft: "20px" }}><ShowDate timestamp={blog.date} /></h6>
