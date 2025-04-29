@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { fetchUsers } from '../reducers/userSlice'
 import Spinner from './Spinner'
 import { LuUserRoundPen } from "react-icons/lu";
+import { GoPlusCircle } from "react-icons/go";
 
 const UsersList = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const users = useSelector((state) => state.users.users)
     const usersStatus = useSelector((state) => state.users.status)
@@ -36,11 +38,17 @@ const UsersList = () => {
     }
 
     return (
-        <div className='container'>
+        <div className='container text-center'>
+            <div className="row justify-content-center mt-5">
+                <div className="col-12 text-center">
+                    <button onClick={()=> navigate("/create-user")} className='btn btn-primary'><GoPlusCircle /> افزودن نویسنده جدید</button>
+                </div>
+            </div>
+            
+            <div className="row justify-content-center">
             <h3 className='my-5'><LuUserRoundPen /> اسامی نویسندگان:</h3>
-            <div className="row">
                 <div className="col-12 col-sm-6">
-                    <ul className='list-group list-group'>
+                    <ul className='list-group list-group text-start'>
                         {content}
                     </ul>
 

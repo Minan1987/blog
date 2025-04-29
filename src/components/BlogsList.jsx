@@ -60,7 +60,7 @@ const BlogsList = () => {
     return (
         <div className='blogs container'>
             <div className="row my-5 justify-content-center">
-                <button onClick={() => navigate("/blogs/create-blog")} className='btn btn-primary w-25'>ایجاد مقاله</button>
+                <button onClick={() => navigate("/create-blog")} className='btn btn-primary w-25'>ایجاد مقاله</button>
             </div>
             <h2 className='m-5 text-center'>نمایش تمامی پست ها:</h2>
             <div className="row d-flex justify-content-start align-items-center">

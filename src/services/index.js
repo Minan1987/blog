@@ -42,8 +42,16 @@ export const createBlog = (blog) => {
 }
 
 
+//@desc Create user
+//@route Post http://localhost:9000/users
+export const createUser = (user) => {
+    const url = `${SERVER_URL}/users`
+    return axios.post(url, user)
+}
+
+
 //@desc Update blog with blod id
-//@route Put http://localhost:9000/blog/blogId
+//@route Put http://localhost:9000/blogs/blogId
 export const updateBlog = (blog, blogId) => {
     const url = `${SERVER_URL}/blogs/${blogId}`
     return axios.put(url, blog)
@@ -51,8 +59,15 @@ export const updateBlog = (blog, blogId) => {
 
 
 //@desc Delete blog with blog id
-//@route Delete http://localhost:9000/blog/blogId
+//@route Delete http://localhost:9000/blogs/blogId
 export const deleteBlog = (blogId) => {
     const url = `${SERVER_URL}/blogs/${blogId}`
+    return axios.delete(url)
+}
+
+//@desc Delete user with user id
+//@route Delete http://localhost:9000/users/userId
+export const deleteUser = (userId) => {
+    const url = `${SERVER_URL}/users/${userId}`
     return axios.delete(url)
 }
