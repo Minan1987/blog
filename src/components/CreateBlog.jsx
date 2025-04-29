@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { addNewBlog } from '../reducers/blogSlice';
 import { useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
+import { selectAllUsers } from '../reducers/userSlice';
 
 const CreateBlog = () => {
     const [title, setTitle] = useState("");
@@ -14,7 +15,7 @@ const CreateBlog = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const users = useSelector(state => state.users)
+    const users = useSelector(state => selectAllUsers(state))
 
     const onSelectAuthor = e => setUserId(e.target.value)
     const canSubmit = [title, content, userId].every(Boolean) && requestStatus === 'idle';

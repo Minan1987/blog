@@ -16,7 +16,7 @@ const Navbar = () => {
               <Link to="/" className="nav-link active" aria-current="page">صفحه اصلی</Link>
             </li>
             <li className="nav-item">
-              <Link to={"/authors"} className="nav-link" href="#">نویسندگان</Link>
+              <Link to={"/users"} className="nav-link" href="#">نویسندگان</Link>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,9 +28,6 @@ const Navbar = () => {
                 <li><hr className="dropdown-divider" /></li>
                 <li><a className="dropdown-item" href="#">سایر موارد</a></li>
               </ul>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" aria-disabled="true">سیاسی</a>
             </li>
           </ul>
           <form className="d-flex" role="search">

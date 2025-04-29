@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { fetchUsers } from '../reducers/userSlice'
 import Spinner from './Spinner'
+import { LuUserRoundPen } from "react-icons/lu";
 
 const UsersList = () => {
     const dispatch = useDispatch()
@@ -22,7 +24,9 @@ const UsersList = () => {
     } else if (usersStatus === "completed") {
         if (users.length > 0) {
             content = users.map((user) => (
-                <p key={user.id}>{user.fullname}</p>
+                <li key={user.id} className='list-group-item'>
+                    <Link to={`/users/${user.id}`}> {user.fullname} </Link>
+                </li>
             ))
         } else {
             content = <p>نویسندگانی یافت نشدند</p>
@@ -32,9 +36,16 @@ const UsersList = () => {
     }
 
     return (
-        <div>
-            <h3>اسامی نویسندگان:</h3>
-            {content}
+        <div className='container'>
+            <h3 className='my-5'><LuUserRoundPen /> اسامی نویسندگان:</h3>
+            <div className="row">
+                <div className="col-12 col-sm-6">
+                    <ul className='list-group list-group'>
+                        {content}
+                    </ul>
+
+                </div>
+            </div>
         </div>
     )
 }

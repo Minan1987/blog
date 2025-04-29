@@ -31,13 +31,13 @@ const SingleBlog = () => {
 
   return (
     <div key={blog.id} className="col-xs-12 m-3">
-      <div key={blog.id} className="col-md-6 col-lg-4 mb-4">
+      <div key={blog.id} className="col-12 mb-4">
         <div className="card post-card">
           <img src="https://www.horizonplant.com/wp-content/uploads/2017/05/placeholder-400x400.png" className="card-img-top post-img" alt={blog.title} />
           <div className="card-body">
             <h5 className="card-title">{blog.title}</h5>
             <h6 className='card-title fs-6'></h6>
-            <p className="card-text text-muted">{blog.content.substring(0, 100)}</p>
+            <p className="card-text text-muted">{blog.content}</p>
             <div className="post-meta d-flex">
               <h6 style={{ color: "#777", fontSize: "12px", marginLeft: "20px" }}><ShowDate timestamp={blog.date} /></h6>
               <h6 style={{ color: "#777", fontSize: "12px" }}><ShowAuthor userId={blog.user} /></h6>

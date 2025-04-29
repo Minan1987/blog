@@ -6,6 +6,7 @@ import SingleBlog from "../components/SingleBlog";
 import CreateBlog from "../components/CreateBlog";
 import EditBlog from "../components/EditBlog";
 import UsersList from "../components/UsersList";
+import UserPage from "../components/UserPage";
 
 
 export const router = createBrowserRouter([
@@ -18,7 +19,8 @@ export const router = createBrowserRouter([
             { path: "/blogs/:blogId", element: <SingleBlog /> },
             { path: "/blogs/create-blog", element: <CreateBlog /> },
             { path: "/edit-blog/:blogId", element: <EditBlog /> },
-            { path: "/authors", element: <UsersList /> },
+            { path: "/users", element: <UsersList /> },
+            { path: "/users/:userId", element: <UserPage /> },
         ]
     }
 ])

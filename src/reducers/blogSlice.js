@@ -105,7 +105,7 @@ const blogSlice = createSlice({
 
 //Selectors
 export const selectAllBlogs = (state) => state.blogs.blogs
-export const selectBlogById = (state, blogId) => state.blogs.blogs.find((blog) => blog.id === blogId)
+export const selectBlogById = (state, blogId) => state.blogs.blogs.find((blog) => blog.id === (blogId))
 
 //actions
 export const { blogAdded, blogEdited, blogDeleted, reactionAdded } = blogSlice.actions;
