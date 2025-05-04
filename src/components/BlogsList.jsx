@@ -32,7 +32,7 @@ const BlogsList = () => {
         content = sortedBlogs.map((blog) => (
             <div key={blog.id} className="col-md-6 col-lg-4 mb-4">
                 <div className="card post-card">
-                    <img src="https://www.horizonplant.com/wp-content/uploads/2017/05/placeholder-400x400.png" className="card-img-top post-img" alt={blog.title} />
+                    <img src={blog.image} className="card-img-top post-img" alt={blog.title} style={{ width: "100%", height: "400px" }} />
                     <div className="card-body">
                         <h5 className="title card-title">{blog.title}</h5>
                         <p className="content card-text text-muted">{blog.content.substring(0, 100)}</p>
