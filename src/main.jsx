@@ -13,7 +13,7 @@ import { store } from './store'
     <StrictMode>
       <Provider store={store}>
         <RouterProvider router={router} />
-        <ToastContainer />
+        <ToastContainer position="top-center"/>
       </Provider>
     </StrictMode>,
   )

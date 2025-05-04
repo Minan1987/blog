@@ -5,6 +5,7 @@ import { deleteBlogFromApi, selectBlogById } from '../reducers/blogSlice';
 import ShowDate from './ShowDate';
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import ShowAuthor from './ShowAuthor';
+import Swal from 'sweetalert2'
 
 const SingleBlog = () => {
   const { blogId } = useParams();
@@ -23,10 +24,28 @@ const SingleBlog = () => {
   }
 
   const handleDelete = () => {
-    if (blog) {
-      dispatch(deleteBlogFromApi(blog.id))
-      navigate("/");
-    }
+    Swal.fire({
+      title: 'آیا مطمئنی؟',
+      text: 'این بلاگ حذف خواهد شد!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'بله، حذف کن!',
+      cancelButtonText: 'لغو'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (blog) {
+          dispatch(deleteBlogFromApi(blog.id));  // حذف بلاگ
+          navigate("/");  // هدایت به صفحه اصلی
+          Swal.fire(
+            'حذف شد!',
+            'بلاگ با موفقیت حذف شد.',
+            'success'
+          );
+        }
+      }
+    })
   }
 
   return (
