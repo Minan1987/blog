@@ -9,6 +9,7 @@ import { selectAllUsers } from '../reducers/userSlice';
 const CreateBlog = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [image, setImage] = useState(null);   
     const [userId, setUserId] = useState("");
     const [requestStatus, setRequestStatus] = useState('idle');
 
@@ -20,16 +21,32 @@ const CreateBlog = () => {
     const onSelectAuthor = e => setUserId(e.target.value)
     const canSubmit = [title, content, userId].every(Boolean) && requestStatus === 'idle';
 
+    //افزودن تصویر به دیتا هنگام ارسال فرم
+    const convertToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    };
+
     const handleSubmitForm = async () => {
         if (canSubmit) {
             try {
                 setRequestStatus('pending')
+                let imageBase64 = "";
+                if (image) {
+                    imageBase64 = await convertToBase64(image);
+                }
+
                 await dispatch(addNewBlog({
                     id: nanoid(),
                     date: new Date().toISOString(),
                     title,
                     content,
                     user: userId,
+                    image: imageBase64,
                     reactions: {
                         like: 0,
                         favorite: 0,
@@ -39,6 +56,7 @@ const CreateBlog = () => {
                 }))
                 setTitle("");
                 setContent("");
+                setImage(null)
                 setUserId("");
                 navigate("/");
             } catch (err) {
@@ -82,6 +100,15 @@ const CreateBlog = () => {
                                 }
 
                             </select>
+                        </div>
+                        <div className="w-100">
+                            <label className='form-label'>تصویر مقاله:</label>
+                            <input
+                                type="file"
+                                className='form-control mb-3'
+                                accept="image/*"
+                                onChange={(e) => setImage(e.target.files[0])}
+                            />
                         </div>
                         <div className="w-100">
                             <label className='form-label'>محتوای مقاله:</label>
