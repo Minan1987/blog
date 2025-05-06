@@ -1,15 +1,28 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: 'http://localhost:9000'
     }),
+    tagTypes: ["BLOG"],
     endpoints: builder => ({
         getBlogs: builder.query({
-            query: () => "/blogs"
+            query: () => "/blogs",
+            providesTags: ["BLOG"]
+        }),
+        getBlog: builder.query({
+            query: (initialBlogId) => `/blogs/${initialBlogId}`
+        }),
+        addNewBlog: builder.mutation({
+            query: (initialBlog) => ({
+                url: "/blogs",
+                method: "POST",
+                body: initialBlog
+            }),
+            invalidatesTags: ["BLOG"]
         })
     })
 })
 
-export const { useGetBlogsQuery } = apiSlice
+export const { useGetBlogsQuery, useGetBlogQuery, useAddNewBlogMutation } = apiSlice

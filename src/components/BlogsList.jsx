@@ -1,35 +1,35 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo } from 'react';
+import { useGetBlogsQuery } from '../api/apiSlice'
 import { Link, useNavigate } from 'react-router-dom';
 import ShowDate from './ShowDate';
 import ShowAuthor from './ShowAuthor';
 import ReactionButtons from './ReactionButtons';
-import { fetchBlogs, selectAllBlogs } from '../reducers/blogSlice';
+
 import Spinner from './Spinner';
 
 const BlogsList = () => {
+    const {
+        data: blogs = [],
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    } = useGetBlogsQuery()
+
+    const sortedBlogs = useMemo(() => {
+        const sortedBlogs = blogs.slice();
+        sortedBlogs.sort((a, b) => b.date.localeCompare(a.date))
+        return sortedBlogs
+    })
+
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
-    const blogs = useSelector(selectAllBlogs);
-    const blogStatus = useSelector((state) => state.blogs.status)
-    const error = useSelector((state) => state.blogs.error)
+    let orderedBlogs;
+    if (isLoading) {
+        orderedBlogs = <Spinner />
+    } else if (isSuccess) {
 
-    useEffect(() => {
-        if (blogStatus === 'idle') {
-            dispatch(fetchBlogs())
-        }
-    }, [blogStatus, dispatch])
-
-    let content;
-    if (blogStatus === 'loading') {
-        content = <Spinner />
-    } else if (blogStatus === "completed") {
-        const sortedBlogs = (blogs || [])
-            .slice()
-            .sort((a, b) => b.date.localeCompare(a.date));
-
-        content = sortedBlogs.map((blog) => (
+        orderedBlogs = sortedBlogs.map((blog) => (
             <div key={blog.id} className="col-md-6 col-lg-4 mb-4">
                 <div className="card post-card">
                     <img src={blog.image} className="card-img-top post-img" alt={blog.title} style={{ width: "100%", height: "400px" }} />
@@ -53,8 +53,8 @@ const BlogsList = () => {
             </div>
         ))
 
-    } else if (blogStatus === 'failed') {
-        content = <div>{error}</div>
+    } else if (isError) {
+        orderedBlogs = <div>{error}</div>
     }
 
     return (
@@ -64,7 +64,7 @@ const BlogsList = () => {
             </div>
             <h2 className='m-5 text-center'>نمایش تمامی پست ها:</h2>
             <div className="row d-flex justify-content-start align-items-center">
-                {content}
+                {orderedBlogs}
             </div>
         </div>
     )

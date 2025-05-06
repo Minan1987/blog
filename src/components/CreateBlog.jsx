@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addNewBlog } from '../reducers/blogSlice';
 import { useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 import { selectAllUsers } from '../reducers/userSlice';
+import { useAddNewBlogMutation } from '../api/apiSlice';
 
 const CreateBlog = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [image, setImage] = useState(null);   
+    const [image, setImage] = useState(null);
     const [userId, setUserId] = useState("");
-    const [requestStatus, setRequestStatus] = useState('idle');
+
+    const [addNewBlog, { isLoading }] = useAddNewBlogMutation()
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const users = useSelector(state => selectAllUsers(state))
 
     const onSelectAuthor = e => setUserId(e.target.value)
-    const canSubmit = [title, content, userId].every(Boolean) && requestStatus === 'idle';
+
+    const canSubmit = [title, content, userId].every(Boolean) && !isLoading;
 
     //افزودن تصویر به دیتا هنگام ارسال فرم
     const convertToBase64 = (file) => {
@@ -34,13 +34,12 @@ const CreateBlog = () => {
     const handleSubmitForm = async () => {
         if (canSubmit) {
             try {
-                setRequestStatus('pending')
                 let imageBase64 = "";
                 if (image) {
                     imageBase64 = await convertToBase64(image);
                 }
 
-                await dispatch(addNewBlog({
+                await addNewBlog({
                     id: nanoid(),
                     date: new Date().toISOString(),
                     title,
@@ -53,7 +52,7 @@ const CreateBlog = () => {
                         view: 0
                     },
 
-                }))
+                }).unwrap()
                 setTitle("");
                 setContent("");
                 setImage(null)
@@ -62,8 +61,6 @@ const CreateBlog = () => {
             } catch (err) {
                 console.error("Failed to save the blog", err);
 
-            } finally {
-                setRequestStatus('idle')
             }
         }
     }
@@ -83,7 +80,6 @@ const CreateBlog = () => {
                             />
                         </div>
                         <div className="w-100">
-
                             <label htmlFor='authorName'>نویسنده:</label>
                             <select id='authorName'
                                 className='form-control mb-3'
@@ -129,11 +125,9 @@ const CreateBlog = () => {
                                 ایجاد مقاله
                             </button>
                         </div>
-
                     </form>
                 </div>
             </div>
-
         </div>
     )
 }
