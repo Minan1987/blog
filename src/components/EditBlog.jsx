@@ -1,29 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateBlogApi, selectBlogById } from '../reducers/blogSlice';
 import { toast } from 'react-toastify';
+import { useEditBlogMutation, useGetBlogQuery } from '../api/apiSlice';
 
 const EditBlog = () => {
     const { blogId } = useParams();
-    const blog = useSelector(state => selectBlogById(state, blogId))
-    const [title, setTitle] = useState(blog.title);
-    const [content, setContent] = useState(blog.content);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
+    const { data: blog } = useGetBlogQuery(blogId)
+    const [updateBlog, { isLoading }] = useEditBlogMutation()
+
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+
+    useEffect(() => {
+        if (blog) {
+            setTitle(blog.title);
+            setContent(blog.content);
+        }
+    }, [blog]);
 
     const handleSubmitForm = async () => {
+        const editedBlog = {
+            id: blogId,
+            date: blog.date,
+            title,
+            content,
+            user: blog.user,
+            reactions: { ...blog.reactions }
+        }
         if (title && content) {
             try {
-                await dispatch(updateBlogApi({
-                    id: blogId,
-                    date: blog.date,
-                    title,
-                    content,
-                    user: blog.user,
-                    reactions: { ...blog.reactions }
-                })).unwrap();
-
+                await updateBlog({ ...editedBlog }).unwrap();
                 toast.success('مقاله با موفقیت ویرایش شد');
                 navigate(`/blogs/${blogId}`);
             } catch (err) {

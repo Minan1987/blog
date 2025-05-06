@@ -22,22 +22,22 @@ const CreateBlog = () => {
     const canSubmit = [title, content, userId].every(Boolean) && !isLoading;
 
     //افزودن تصویر به دیتا هنگام ارسال فرم
-    const convertToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-    };
+    // const convertToBase64 = (file) => {
+    //     return new Promise((resolve, reject) => {
+    //         const reader = new FileReader();
+    //         reader.readAsDataURL(file);
+    //         reader.onload = () => resolve(reader.result);
+    //         reader.onerror = error => reject(error);
+    //     });
+    // };
 
     const handleSubmitForm = async () => {
         if (canSubmit) {
             try {
-                let imageBase64 = "";
-                if (image) {
-                    imageBase64 = await convertToBase64(image);
-                }
+                // let imageBase64 = "";
+                // if (image) {
+                //     imageBase64 = await convertToBase64(image);
+                // }
 
                 await addNewBlog({
                     id: nanoid(),
@@ -45,7 +45,7 @@ const CreateBlog = () => {
                     title,
                     content,
                     user: userId,
-                    image: imageBase64,
+                    // image: imageBase64,
                     reactions: {
                         like: 0,
                         favorite: 0,
@@ -97,7 +97,7 @@ const CreateBlog = () => {
 
                             </select>
                         </div>
-                        <div className="w-100">
+                        {/* <div className="w-100">
                             <label className='form-label'>تصویر مقاله:</label>
                             <input
                                 type="file"
@@ -105,7 +105,7 @@ const CreateBlog = () => {
                                 accept="image/*"
                                 onChange={(e) => setImage(e.target.files[0])}
                             />
-                        </div>
+                        </div> */}
                         <div className="w-100">
                             <label className='form-label'>محتوای مقاله:</label>
                             <input
