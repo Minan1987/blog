@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import {  useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { fetchUsers, removeUser, selectAllUsers } from '../reducers/userSlice'
+import { selectAllUsers } from '../reducers/userSlice'
 import Spinner from './Spinner'
 import Swal from 'sweetalert2'
 import { LuUserRoundPen } from "react-icons/lu";
@@ -9,39 +9,38 @@ import { GoPlusCircle } from "react-icons/go";
 import { MdDeleteOutline } from "react-icons/md";
 
 const UsersList = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const users = useSelector(selectAllUsers)
 
-    const handleDelete = (userId) => {
-        Swal.fire({
-            title: 'آیا مطمئنی؟',
-            text: 'این عملیات قابل بازگشت نیست!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'بله، حذف کن!',
-            cancelButtonText: 'لغو'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                dispatch(removeUser(userId));
-                Swal.fire(
-                    'حذف شد!',
-                    'نویسنده با موفقیت حذف شد.',
-                    'success'
-                );
-            }
-        });
-    };
+    // const handleDelete = (userId) => {
+    //     Swal.fire({
+    //         title: 'آیا مطمئنی؟',
+    //         text: 'این عملیات قابل بازگشت نیست!',
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'بله، حذف کن!',
+    //         cancelButtonText: 'لغو'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             dispatch(removeUser(userId));
+    //             Swal.fire(
+    //                 'حذف شد!',
+    //                 'نویسنده با موفقیت حذف شد.',
+    //                 'success'
+    //             );
+    //         }
+    //     });
+    // };
 
 
     const renderedUsers = users.map((user) => (
         <li key={user.id} className='list-group-item d-flex justify-content-between'>
             <Link to={`/users/${user.id}`}> {user.fullname} </Link>
             <button
-                onClick={() => handleDelete(user.id)}
+                // onClick={() => handleDelete(user.id)}
                 className='btn btn-danger'>
                 <MdDeleteOutline style={{ fontSize: "20px" }} />
             </button>

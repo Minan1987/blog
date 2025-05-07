@@ -1,14 +1,34 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { selectUserById } from '../reducers/userSlice';
-import { selectUserBlogs } from '../reducers/blogSlice';
+import { createSelector } from '@reduxjs/toolkit';
+import { useGetBlogsQuery } from '../api/apiSlice';
+// import { selectUserBlogs } from '../reducers/blogSlice';
 
 const UserPage = () => {
     const { userId } = useParams();
 
     const user = useSelector(state => selectUserById(state, userId))
-    const userBlogs = useSelector(state => selectUserBlogs(state, userId))
+    // const userBlogs = useSelector(state => selectUserBlogs(state, userId))
+
+    //Select from memoized result
+    const selectUserBlogs = useMemo(() => {
+        const emptyArray = []
+        return createSelector(
+            (res) => res.data, (res, userId) => userId,
+            (data, userId) => data?.filter((blog) => blog.user === userId) ?? emptyArray
+        )
+    })
+    console.log(selectUserBlogs(result, userId))
+    const { userBlogs } = useGetBlogsQuery(undefined, {
+        selectFromResult: (result) => ({
+            ...result,
+            userBlogs: selectUserBlogs(result, userId)
+        })
+    })
+   
+
 
 
     if (!user) {

@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
 export const apiSlice = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
@@ -35,7 +34,7 @@ export const apiSlice = createApi({
             invalidatesTags: (result, error, arg) => [
                 { type: "BLOG", id: arg.id }
             ]
-        })
+        }),
     })
 })
 
