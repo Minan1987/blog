@@ -16,19 +16,29 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
             query: () => "/users",
             transformResponse: (responseData) => {
                 return userAdapter.setAll(initialState, responseData)
-            }
+            },
+            providesTags: ["USER"]
         }),
         getUser: builder.query({
             query: (userId) => ({
                 url: `/users/${userId}`
-            })
+            }),
+            providesTags: ["USER"]
         }),
         addNewUser: builder.mutation({
-            query: (initialUser) => ({
+            query: (user) => ({
                 url: "/users",
                 method: "POST",
-                body: initialUser
-            })
+                body: user
+            }),
+            invalidatesTags: ["USER"]
+        }),
+        deleteuser: builder.mutation({
+            query: (userId) => ({
+                url: `/users/${userId}`,
+                method: "DELETE"
+            }),
+            invalidatesTags: ["USER"]
         })
     })
 })
@@ -108,7 +118,7 @@ const userSlice = createSlice(
 //Getting normalized data from cash:
 const selectUsersData = createSelector(
     selectUsersResult,
-    (usersResult)=>usersResult.data
+    (usersResult) => usersResult.data
 )
 //Selectors for Normalized Data
 export const {
@@ -127,5 +137,5 @@ export const {
 // )
 
 
-export const { useGetUsersQuery } = extendedApiSlice
+export const { useGetUsersQuery, useGetUserQuery, useAddNewUserMutation, useDeleteuserMutation } = extendedApiSlice
 export default userSlice.reducer

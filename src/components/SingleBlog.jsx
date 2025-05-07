@@ -5,7 +5,7 @@ import ShowDate from './ShowDate';
 import { MdOutlineEdit, MdDeleteOutline } from "react-icons/md";
 import ShowAuthor from './ShowAuthor';
 import Swal from 'sweetalert2'
-import { useGetBlogQuery } from '../api/apiSlice';
+import { useDeleteBlogMutation, useGetBlogQuery } from '../api/apiSlice';
 import Spinner from './Spinner';
 
 const SingleBlog = () => {
@@ -18,13 +18,38 @@ const SingleBlog = () => {
     isError
   } = useGetBlogQuery(blogId)
 
+  const [deleteBlog] = useDeleteBlogMutation()
+
   if (isError || !blog) {
     return (
       <section className='text-center my-5'>
         <h2>پستی که دنبالش میگردی وجود نداره دوست من 🤗</h2>
       </section>
     );
-  } 
+  }
+
+  const handleDelete = async () => {
+    Swal.fire({
+      title: 'آیا مطمئنی؟',
+      text: 'این بلاگ حذف خواهد شد!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'بله، حذف کن!',
+      cancelButtonText: 'لغو'
+    }).then((result) => {
+      if (result.isConfirmed && blog) {
+        deleteBlog(blogId)
+        navigate("/");
+        Swal.fire(
+          'حذف شد!',
+          'بلاگ با موفقیت حذف شد.',
+          'success'
+        );
+      }
+    })
+  }
 
   let content;
   if (isFetching) {
@@ -48,43 +73,17 @@ const SingleBlog = () => {
                 className='btn btn-warning'>
                 <MdOutlineEdit style={{ fontSize: "20px" }} />
               </button>
-              {/* <button
+              <button
                 onClick={handleDelete}
                 className='btn btn-danger mx-3'>
                 <MdDeleteOutline style={{ fontSize: "20px" }} />
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   }
-
-
-  // const handleDelete = () => {
-  //   Swal.fire({
-  //     title: 'آیا مطمئنی؟',
-  //     text: 'این بلاگ حذف خواهد شد!',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#d33',
-  //     cancelButtonColor: '#3085d6',
-  //     confirmButtonText: 'بله، حذف کن!',
-  //     cancelButtonText: 'لغو'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       if (blog) {
-  //         dispatch(deleteBlogFromApi(blog.id));  // حذف بلاگ
-  //         navigate("/");  // هدایت به صفحه اصلی
-  //         Swal.fire(
-  //           'حذف شد!',
-  //           'بلاگ با موفقیت حذف شد.',
-  //           'success'
-  //         );
-  //       }
-  //     }
-  //   })
-  // }
 
   return (
     <div key={blog.id} className="col-xs-12 m-3">

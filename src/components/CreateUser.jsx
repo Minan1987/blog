@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
-// import { addNewUser } from '../reducers/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { useAddNewUserMutation } from '../reducers/userSlice'
 import { nanoid } from '@reduxjs/toolkit'
 
 const CreateUser = () => {
-    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const [user, setUser] = useState("")
+    const [addNewUser] = useAddNewUserMutation()
 
     const canSubmit = Boolean(user)
-    // const handleSubmitForm = async () => {
-    //     if (canSubmit) {
-    //         try {
-    //            await dispatch(addNewUser({
-    //              id: nanoid(), 
-    //              fullname: user
-    //              }))
-    //             navigate("/users")
-    //         } catch (err) {
-    //             console.error("Failed to save the user", err);
-    //         }
+    const handleSubmitForm = async () => {
+        if (canSubmit) {
+            try {
+                await addNewUser({
+                    id: nanoid,
+                    fullname: user
+                })
+                navigate("/users")
+            } catch (err) {
+                console.error("Failed to save the user", err);
+            }
 
-    //     }
-    // }
+        }
+    }
     return (
         <div className='container'>
             <div className="row justify-content-center my-5">
@@ -43,7 +43,7 @@ const CreateUser = () => {
                         <div className='w-100 d-flex justify-content-end'>
                             <button
                                 type="button"
-                                // onClick={handleSubmitForm}
+                                onClick={handleSubmitForm}
                                 className="btn btn-outline-primary my-5"
                                 disabled={!canSubmit}
                             >

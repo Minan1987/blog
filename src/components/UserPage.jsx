@@ -20,16 +20,14 @@ const UserPage = () => {
             (data, userId) => data?.filter((blog) => blog.user === userId) ?? emptyArray
         )
     })
-    console.log(selectUserBlogs(result, userId))
+  
     const { userBlogs } = useGetBlogsQuery(undefined, {
         selectFromResult: (result) => ({
             ...result,
             userBlogs: selectUserBlogs(result, userId)
         })
     })
-   
-
-
+    
 
     if (!user) {
         return <div>کاربر یافت نشد یا اطلاعات هنوز بارگذاری نشده است.</div>
